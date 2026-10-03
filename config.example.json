@@ -1,0 +1,18 @@
+{
+  "site": "home-test",
+  "timezone": "Asia/Shanghai",
+  "holidays": [],
+  "workdays": [],
+  "memory_directory": "data/memory",
+  "forgetting_gamma": 0.9,
+  "thermal_rooms": {},
+  "absence_costs": {},
+  "ha_url": "http://homeassistant.local:8123",
+  "database": "data/moqi.sqlite3",
+  "entities": {
+    "binary_sensor.test_motion": {"role": "motion", "room": "living_room"},
+    "binary_sensor.test_door": {"role": "contact", "room": "entrance"},
+    "binary_sensor.test_leak": {"role": "leak", "room": "kitchen"},
+    "switch.test_plug": {"role": "actuator", "room": "living_room"}
+  }
+}

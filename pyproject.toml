@@ -1,0 +1,20 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "moqi-home"
+version = "0.5.0.dev0"
+description = "Structured household memory, learning and typed shadow decisions"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = ["websockets>=15,<18", "tzdata>=2025.2", "PyYAML>=6,<7"]
+
+[project.optional-dependencies]
+voice = ["edgejev"]
+
+[project.scripts]
+moqi = "moqi.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["moqi*"]

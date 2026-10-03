@@ -1,0 +1,6 @@
+{
+  "version": 1,
+  "edit_source": "app_only",
+  "devices": {},
+  "note": "After hardware acceptance, the administrator may allow verified low-risk devices here. Empty allowlist denies all actions. Voice and hypotheses cannot edit this file."
+}

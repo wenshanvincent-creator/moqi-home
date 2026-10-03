@@ -1,0 +1,38 @@
+name: Core and package checks
+on: [push, pull_request, workflow_dispatch]
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python: ['3.11', '3.12', '3.13', '3.14']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - run: python -m pip install -e . build
+      - run: python -m unittest discover -s tests -v
+      - run: python -m tools.build_playground --output dist/playground/index.html
+      - run: python -m build
+      - uses: actions/upload-artifact@v4
+        with:
+          name: review-${{ matrix.python }}
+          path: dist/
+  wasm:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: python -m pip install -e .
+      - run: python -m tools.build_playground --output dist/playground/index.html
+      - run: node tools/check_playground.mjs dist/playground/index.html
+      - run: node tools/fetch_pyodide.mjs .cache/pyodide-314.0.7
+      - run: node tools/check_wasm.mjs .cache/pyodide-314.0.7 dist/playground/index.html

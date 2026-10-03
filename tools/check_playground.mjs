@@ -1,0 +1,17 @@
+import fs from 'node:fs/promises';
+import vm from 'node:vm';
+import {createHash} from 'node:crypto';
+import assert from 'node:assert/strict';
+const html=await fs.readFile(process.argv[2]||'dist/playground/index.html','utf8');
+const script=html.match(/<script>([^]*?)<\/script>/)[1];
+new vm.Script(script);
+const worker=vm.runInNewContext(script.match(/const workerSource=(`[^]*?`);/)[1]);
+new vm.Script(worker);
+const bundle=JSON.parse(html.match(/<script type="application\/json" id="bundle">([^]*?)<\/script>/)[1]);
+for(const [name,body] of Object.entries(bundle.files))assert.equal(createHash('sha256').update(body).digest('hex'),bundle.sha256[name]);
+assert.equal(bundle.recorded.length,10);
+assert.ok(bundle.recorded.every(frame=>frame.view.synthetic&&!frame.view.physical_execution));
+assert.ok(bundle.recorded[2].view.habits.length>0);
+assert.equal(bundle.recorded[7].view.constraints.length,1);
+assert.equal(bundle.recorded[8].view.constraints.length,0);
+console.log('Main/worker syntax, embedded source integrity and synthetic fixture boundaries passed. Browser interaction is a separate acceptance check.');

@@ -1,0 +1,11 @@
+{
+  "schema_version": 1,
+  "entity_id": "switch.lamp",
+  "at": "2026-03-02T10:05:00+00:00",
+  "state": "on",
+  "previous": "off",
+  "attributes": {},
+  "previous_attributes": {},
+  "source": "human",
+  "evidence": "Synthetic example only; a real adapter must supply verified attribution evidence"
+}

@@ -1,0 +1,22 @@
+services:
+  homeassistant:
+    image: ghcr.io/home-assistant/home-assistant:stable
+    restart: unless-stopped
+    network_mode: host
+    volumes:
+      - ./ha-config:/config
+      - /etc/localtime:/etc/localtime:ro
+    # This gateway-first setup does not expose host USB devices or enable
+    # privileged mode. Add documented Bluetooth access only if needed.
+  moqi:
+    build:
+      context: ..
+      dockerfile: deploy/Dockerfile
+    profiles: [tools]
+    network_mode: host
+    environment:
+      HA_TOKEN: ${HA_TOKEN:-}
+    volumes:
+      - ../data:/app/data
+      - ../config.local.json:/app/config.local.json:ro
+    command: ["python", "-m", "moqi.cli", "run"]
