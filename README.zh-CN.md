@@ -1,6 +1,8 @@
 # 默契 Moqi
 
-**面向智能家居 Agent 的可审计记忆与学习框架。**
+**面向智能家居 Agent 的可审计记忆与学习（Home Assistant）— 尚未到 1.0，默认影子模式。**
+
+[![Core and package checks](https://github.com/wenshanvincent-creator/moqi-home/actions/workflows/tests.yml/badge.svg)](https://github.com/wenshanvincent-creator/moqi-home/actions/workflows/tests.yml)
 
 [English](README.md) · [架构与接口](docs/framework.md) · [Playground](docs/playground.md) · [贡献指南](CONTRIBUTING.md)
 
@@ -8,7 +10,27 @@
 
 目前是 **软件准备版本，尚未到 1.0**。整合运行器默认影子模式，HA 管理设备选择和最终执行边界；家庭数据、节能效果、模型准确率、实际音频和工控机性能仍待验收。许可证尚未确定，当前没有附带开源许可授权。
 
-日常靠行为学习，数值、时间和确定性判断优先使用代码；代码无法处理的受支持语义才交给本地 JEV。DeepSeek 在后台提出改进，每月估算预算 US$1。可选交互使用语音，23:00–07:00 完全静默，不要求住户在网页教学或批准普通习惯。
+习惯来自 Home Assistant 观测和本地学习，不来自 EdgeJev。数值和时间先由确定性代码处理；可选的本地 EdgeJev 只处理代码无法解释的受支持语义。可选的夜间 DeepSeek 反思可以在每月估算 US$1 预算内提出后台更新，`reflection.enabled` 默认关闭。可选交互使用语音，23:00–07:00 完全静默，不要求住户在网页教学或批准普通习惯。显式打开执行且 HA 也选中设备时，当前实况派发只覆盖已获得信任的低风险灯；空调等其他设备可以学习和影子运行，不在此范围内自动执行。
+
+## 两分钟试用
+
+需要 Python 3.11 或更新版本。在本仓库检出目录：
+
+```bash
+python -m pip install -e .
+python -m moqi.scenarios --directory data/software-replay-001
+python -m tools.build_playground --output dist/playground/index.html
+```
+
+场景命令只回放按时序的合成行为，不连接模型、云、Home Assistant 或音频。打开 `dist/playground/index.html` 即可看录制走查，不需要服务器。只有在想用 Pyodide 于浏览器里跑同一学习核心时，才点 Start live sandbox（首次加载需要联网；浏览器兼容验收尚未完成）。
+
+欢迎把一段 Playground 短 GIF 放在 `docs/media/playground.gif`。仓库里目前还没有这个文件。
+
+可选的合成系统演示。请使用新目录，不要指向住户数据库：
+
+```bash
+python -m moqi.demo --output data/system-demo
+```
 
 ## 先完成软件准备
 
@@ -66,6 +88,6 @@ python -m moqi.voice_benchmark --model /path/to/jev-int8 --output data/voice-rep
 python -m unittest discover -s tests -v
 ```
 
-CI 配置已准备，尚无本轮 GitHub CI 运行结果。真实硬件、实际模型/音频、性能和节能实验未验收。首播条件无法满足时保持影子；夜间静默和预算不能被强制播报绕过。
+托管工作流 [Core and package checks](https://github.com/wenshanvincent-creator/moqi-home/actions/workflows/tests.yml)（`.github/workflows/tests.yml`）已在 `main` 上成功运行，包括 2026-10-03 与 2026-10-22 的推送。它覆盖 Python 3.11–3.14、单元测试、Playground 构建和打包。页首徽章反映默认分支，不能代替后续提交或 pull request 自己的结果。真实硬件、实际模型/音频、性能和节能实验未验收。首播条件无法满足时保持影子；夜间静默和预算不能被强制播报绕过。
 
 浏览器输入只在本机会话处理；运行库从 CDN 下载。重新加载清空沙盒，本地部署才持久保存 SQLite 与 Git。公开仓库不包含住户数据库、令牌、密码、音频或权重。

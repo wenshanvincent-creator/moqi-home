@@ -23,12 +23,12 @@ The agreed audience is smart-home developers. The first playground's main story 
 | JavaScript | Main/worker syntax and embedded source hashes checked |
 | Python distribution | Wheel build is configured in CI; this publication checks the exported source and CLI contracts |
 | Privacy boundaries | Explicit export selection and known credential/path scan |
-| Hosted CI | Configuration prepared; inspect Actions after this commit is pushed; no current hosted result is claimed here |
+| Hosted CI | [Core and package checks](https://github.com/wenshanvincent-creator/moqi-home/actions/workflows/tests.yml) (`.github/workflows/tests.yml`) succeeded on `main` for the pushes on 2026-10-03 and 2026-10-22 (Python 3.11–3.14, unit tests, playground build, package build). This row does not claim a result for later commits |
 | Live WebAssembly and browser interaction | Eight command classes passed with actual Python + SQLite under Pyodide 314.0.7; real browser interaction remains pending |
 | Hardware, EdgeJev model and audio | Pending; no physical execution enabled |
 | License | Pending owner choice; no final license grant included |
 
-The owner has authorized publication of the software-preparation changes. License selection, browser interaction, hosted CI results and static playground hosting remain follow-up work. They are required before claiming a licensed open-source release or an accepted live demonstration. Repository publication alone is not evidence that any of these checks passed. Cloud requests, real model inference and physical execution were not used for the local checks.
+The owner has authorized publication of the software-preparation changes. License selection, browser interaction, and static playground hosting remain follow-up work. They are required before claiming a licensed open-source release or an accepted live demonstration. Hosted CI succeeded on `main` on 2026-10-03 and 2026-10-22; that success does not license the project or accept a live demonstration, and a later commit can still fail its own run. Repository publication alone is not evidence that any of these checks passed. Cloud requests, real model inference and physical execution were not used for the local checks.
 
 ## Hardware follow-up
 

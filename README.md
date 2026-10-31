@@ -1,6 +1,8 @@
 # Moqi · 默契
 
-**Auditable memory and learning for smart-home agents.**
+**Auditable memory and learning for smart-home agents (Home Assistant) — pre-1.0, shadow by default.**
+
+[![Core and package checks](https://github.com/wenshanvincent-creator/moqi-home/actions/workflows/tests.yml/badge.svg)](https://github.com/wenshanvincent-creator/moqi-home/actions/workflows/tests.yml)
 
 [中文说明](README.zh-CN.md) · [Architecture & API](docs/framework.md) · [Playground](docs/playground.md) · [Contributing](CONTRIBUTING.md)
 
@@ -8,7 +10,27 @@ Moqi records what a home can actually observe, learns contextual habits from ver
 
 **Software preparation, pre-1.0.** The integrated runtime defaults to shadow mode. HA owns device selection and the final dispatch boundary; hardware integration and real household evaluation remain pending. Model accuracy, energy savings and ITX latency have not been demonstrated. License selection is pending; no open-source license grant is included yet.
 
-Daily learning comes from behavior. Deterministic code handles numeric/time decisions first; optional local EdgeJev handles unresolved supported language. DeepSeek proposes background updates within a US$1 monthly estimated budget. Optional household interaction is voice, with complete silence from 23:00 to 07:00.
+Habits come from Home Assistant observations and local learning, not from EdgeJev. Deterministic code handles numeric and time decisions first. Optional local [EdgeJev](https://github.com/yzfly/edgejev) covers only unresolved supported language. Optional nightly DeepSeek reflection can propose background updates inside a US$1 monthly estimated budget, and it stays off unless `reflection.enabled` is set. Optional household interaction is voice, with complete silence from 23:00 to 07:00. When live dispatch is explicitly enabled and HA has also selected the device, the current scope is earned low-risk lights. HVAC and other devices can be learned and shadowed; they are not auto-executed in this scope.
+
+## Try in 2 minutes
+
+Python 3.11 or newer. From a checkout of this repository:
+
+```bash
+python -m pip install -e .
+python -m moqi.scenarios --directory data/software-replay-001
+python -m tools.build_playground --output dist/playground/index.html
+```
+
+The scenario command replays chronological synthetic behavior with no model, cloud, Home Assistant, or audio device. Open `dist/playground/index.html` for the recorded walkthrough; it does not need a server. Select **Start live sandbox** only if you want the same learning core in the browser through Pyodide (startup downloads need internet; browser acceptance is still pending).
+
+A short playground GIF is welcome at `docs/media/playground.gif`. No GIF is in the repository yet.
+
+Optional synthetic system demo. Use a new directory; do not point it at a household database:
+
+```bash
+python -m moqi.demo --output data/system-demo
+```
 
 ## Prepare the software before hardware
 
@@ -93,7 +115,7 @@ This checks twelve text cases and measures actual routing/latency. It is not a h
 python -m unittest discover -s tests -v
 ```
 
-Tests cover persistence, chronology, coverage, attribution, learning, rollback, parsing, safety faults and playground scenarios. CI configuration includes Python 3.11–3.14 and package builds; hosted CI has not run before publication.
+Tests cover persistence, chronology, coverage, attribution, learning, rollback, parsing, safety faults and playground scenarios. The hosted workflow [Core and package checks](https://github.com/wenshanvincent-creator/moqi-home/actions/workflows/tests.yml) (`.github/workflows/tests.yml`) has succeeded on `main`, including the pushes on 2026-10-03 and 2026-10-22. It runs Python 3.11–3.14, the unit tests, the playground build, and the package build. The badge tracks the default branch; it does not promise that a later commit or pull request passed.
 
 Useful contributions include verified adapters, browser compatibility tests, model-equipped EdgeJev acceptance and chronological benchmark engines. Read [CONTRIBUTING.md](CONTRIBUTING.md). Do not submit databases, passwords, HA tokens, audio or model weights in issues or pull requests.
 
